@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
           seedColor: const Color.fromARGB(255, 238, 202, 230),
         ),
       ),
-      home: const Exercicio6(),
+      home: const Exercicio7(),
     );
   }
 }
@@ -176,7 +176,73 @@ class Exercicio6 extends StatelessWidget {
         title: const Text('Exercicio 6'),
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
-      body: const Row(children: [Icon(Icons.search), Text('pesquisa')]),
+      body: Container(
+        margin: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(10),
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          color: Color.fromARGB(255, 236, 224, 236),
+        ),
+        child: const Row(
+          children: [
+            Icon(Icons.search),
+            SizedBox(width: 5),
+            Expanded(child: Text('Pesquisar...')),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class Exercicio7 extends StatelessWidget {
+  const Exercicio7({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Exercicio 7'),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+      ),
+      body: Column(
+        children: [
+          Container(
+            margin: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: const Color.fromARGB(255, 236, 224, 236),
+            ),
+            child: const Row(
+              children: [
+                Icon(Icons.search),
+                SizedBox(width: 5),
+                Expanded(child: Text('Pesquisar...')),
+              ],
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+            child: const Row(
+              children: [
+                Icon(
+                  Icons.account_circle,
+                  size: 60,
+                  color: Color.fromARGB(255, 68, 62, 102),
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [Text('Nome'), Text('Telefone')],
+                  ),
+                ),
+                Icon(Icons.local_phone, color: Colors.green, size: 30),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
