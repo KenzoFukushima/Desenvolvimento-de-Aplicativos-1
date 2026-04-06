@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
           seedColor: const Color.fromARGB(255, 238, 202, 230),
         ),
       ),
-      home: const Exercicio7(),
+      home: const Exercicio6(),
     );
   }
 }
@@ -67,7 +67,7 @@ class Exercicio3 extends StatelessWidget {
   const Exercicio3({super.key});
 
   String _getFullName(String nome, String sobrenome) {
-    return '$nome $sobrenome';
+    return '$nome ${sobrenome.toUpperCase()}';
   }
 
   @override
@@ -174,14 +174,14 @@ class Exercicio6 extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Exercicio 6'),
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       ),
       body: Container(
         margin: const EdgeInsets.all(20),
         padding: const EdgeInsets.all(10),
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-          color: Color.fromARGB(255, 236, 224, 236),
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
+          color: Theme.of(context).colorScheme.surfaceContainer,
         ),
         child: const Row(
           children: [
