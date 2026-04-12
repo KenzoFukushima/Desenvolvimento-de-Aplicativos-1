@@ -12,9 +12,6 @@ class Exercicio7 extends StatelessWidget {
         backgroundColor: const Color.fromARGB(255, 82, 161, 96),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-
         children: [
           Container(
             height: size.height * 0.15,
@@ -58,12 +55,9 @@ class Exercicio7 extends StatelessWidget {
                       TextButton(
                         onPressed: () {},
                         style: TextButton.styleFrom(
-                          backgroundColor: const Color.fromARGB(
-                            255,
-                            167,
-                            236,
-                            135,
-                          ),
+                          backgroundColor: Theme.of(
+                            context,
+                          ).colorScheme.secondaryContainer,
                           padding: const EdgeInsets.all(10),
                         ),
                         child: const Text(' Mais '),
@@ -92,12 +86,17 @@ class Exercicio7 extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Image.asset('assets/icon_flutter.png', height: 20),
-                      const Text('Eu amo o Flutter!'),
+                      const Expanded(
+                        child: Text(
+                          'Eu amo o Flutter!',
+                          textAlign: TextAlign.end,
+                        ),
+                      ),
                     ],
                   ),
                 ),
