@@ -48,7 +48,7 @@ class Receita extends StatelessWidget {
             itens: [
               'Cenouras, Ovos, Óleo, Açucar e Farinha',
               'Cobertura: chocolate'
-            ],),
+            ], numerado: true,),
 
             SizedBox(height: 20),
 
@@ -57,7 +57,7 @@ class Receita extends StatelessWidget {
               'Bata canoura, ovos e óleo no liquidificador.',
               'Mistura os liquidos com açucar e farinha. Adicione o fermento por último',
               'Asse em forno médio (180ºC)'
-            ],)
+            ], numerado: true,)
           ],
         ),
       ),
@@ -70,8 +70,9 @@ class Section extends StatelessWidget {
   
   final String title;
   final List<String> itens;
+  final bool numerado;
 
-  const Section({super.key, required this.title, required this.itens});
+  const Section({super.key, required this.title, required this.itens, this.numerado=false});
 
   @override
   Widget build(BuildContext context) {
@@ -80,8 +81,7 @@ class Section extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Ingredientes: ',
+                Text(title,
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
@@ -91,33 +91,41 @@ class Section extends StatelessWidget {
 
                 const SizedBox(height: 10),
 
-                
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    for(int i = 0; i < itens.length; i++)
+                      Item(icon: Icons.square, text: itens[i], numerado: numerado, index: i+1,)
+                  ],
+                )
+
               ],
             );
   }
 }
 
-class item extends StatelessWidget {
-  final List<Image> imagem;
-  final List<String> frases;
-
-  const item({super.key, required this.frases, required this.imagem});
+class Item extends StatelessWidget {
+  final IconData icon;
+  final String text;
+  final bool numerado;
+  final int? index;
+  const Item({super.key, required this.icon, required this.text,this.numerado = false, this.index});
 
   @override
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Row(
       children: [
-        for(var item in itens)
-          Row(
-            children: [
-              Icon(Icons.square, size: 8, color: colorScheme.primary,),
-              SizedBox(width: 8,),
-              Expanded(child: Text(item))
-            ],
-          ),
+
+        numerado?
+          Text("${index}.", style: TextStyle(fontWeight: FontWeight.bold, color: colorScheme.primary),)
+        : Icon(icon, size: 8, color: colorScheme.primary,),
+
+        SizedBox(width: 4),
+        Expanded(child: Text(text)),
       ],
     );
   }
 }
+
+
