@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:projeto07_thiago/gradeHoraria.dart';
+import 'package:projeto_aula07_thiagos/exercicio1.dart';
+import 'package:projeto_aula07_thiagos/gradeHoraria.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,10 +14,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'stateless widget',
-      theme: ThemeData(
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: GradeHoraria(),
+      theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
+      home: Exercicio1(),
     );
   }
 }
