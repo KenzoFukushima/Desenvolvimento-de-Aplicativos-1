@@ -18,7 +18,7 @@ class _SomarState extends State<Exercicio1> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Exercicio 3'),
+        title: Text('Exercicio 1'),
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       ),
       body: Padding(

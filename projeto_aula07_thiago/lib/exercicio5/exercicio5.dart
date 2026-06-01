@@ -4,14 +4,14 @@ import 'package:projeto_aula07_thiagos/exercicio4/telas/exercicio1.dart';
 import 'package:projeto_aula07_thiagos/exercicio4/telas/exercicio2.dart';
 import 'package:projeto_aula07_thiagos/exercicio4/telas/exercicio3.dart';
 
-class Exercicio4 extends StatefulWidget {
-  const Exercicio4({super.key});
+class Exercicio5 extends StatefulWidget {
+  const Exercicio5({super.key});
 
   @override
-  State<Exercicio4> createState() => _Exercicio4State();
+  State<Exercicio5> createState() => _Exercicio4State();
 }
 
-class _Exercicio4State extends State<Exercicio4> {
+class _Exercicio4State extends State<Exercicio5> {
   int paginaAtual = 0;
 
   final List<Widget> paginas = [
@@ -72,7 +72,7 @@ class ConteudoEx4 extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          Text('Conteudo do Exercicio 4'),
+          Text('Exercicio 5'),
           
           Lottie.asset('assets/animation/Sushi.json'),
         ],
