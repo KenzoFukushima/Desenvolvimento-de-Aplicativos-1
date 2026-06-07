@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_aula08_thiago/views/add_post.dart';
 import 'package:projeto_aula08_thiago/views/story_item.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final List _post = ['post 1', 'post 2', 'post 3'];
+
   final List _stories = ['story 1', 'story 2', 'story 3', 'story 4', 'story 5'];
 
   @override
@@ -21,7 +29,7 @@ class HomePage extends StatelessWidget {
               itemCount: _stories.length,
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
-                return const StoryItem();
+                return StoryItem(text: _stories[index]);
               },),
           ),
 
@@ -33,7 +41,20 @@ class HomePage extends StatelessWidget {
             },),
           ),
         ],
-      )
+      ),
+      floatingActionButton: FloatingActionButton(onPressed: () async {
+        final result  = await Navigator.push(context, 
+          MaterialPageRoute(builder: (context) => const AddPost(),
+          
+          )
+        );
+        if (result != null) {
+          setState(() {
+            _post.add(result[0]);
+          });
+        }
+      },
+      child: const Icon(Icons.add),),
     );
   }
 }

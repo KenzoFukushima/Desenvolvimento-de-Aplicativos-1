@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class StoryItem extends StatelessWidget {
-  const StoryItem({super.key});
+
+  final String text;
+  const StoryItem({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +15,9 @@ class StoryItem extends StatelessWidget {
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.inversePrimary,
           shape: BoxShape.circle,
-        ),),
+        ),
+        child: Center(child: Text(text, style: TextStyle(fontSize: 20),)),  
+      ),
     );
   }
 }
