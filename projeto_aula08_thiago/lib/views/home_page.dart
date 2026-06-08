@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_aula08_thiago/models/post.dart';
 import 'package:projeto_aula08_thiago/views/add_post.dart';
 import 'package:projeto_aula08_thiago/views/story_item.dart';
 
@@ -10,7 +11,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List _post = ['post 1', 'post 2', 'post 3'];
+  final List<Post> _post = [
+    Post(title: 'Título 1', text: 'post 1'),
+    Post(title: 'Título 2', text: 'post 2'),
+    Post(title: 'Título 3', text: 'post 3'),
+  ];
 
   final List _stories = ['story 1', 'story 2', 'story 3', 'story 4', 'story 5'];
 
@@ -37,7 +42,7 @@ class _HomePageState extends State<HomePage> {
             child: ListView.builder(
               itemCount: _post.length,
               itemBuilder: (context, index) {
-                return PostItem(text: _post[index],);
+                return PostItem(post: _post[index]);
             },),
           ),
         ],
@@ -48,9 +53,9 @@ class _HomePageState extends State<HomePage> {
           
           )
         );
-        if (result != null) {
+        if (result != null && result is Post) {
           setState(() {
-            _post.add(result[0]);
+            _post.add(result);
           });
         }
       },
@@ -60,8 +65,8 @@ class _HomePageState extends State<HomePage> {
 }
 
 class PostItem extends StatelessWidget {
-  final String text;
-  const PostItem({super.key, required this.text});
+  final Post post;
+  const PostItem({super.key, required this.post});
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +76,7 @@ class PostItem extends StatelessWidget {
             child: Container(
               height: 200,
               color: colors.primaryContainer,
-              child: Center(child: Text(text, style: TextStyle(fontSize: 20),)),
+              child: Center(child: Text(post.text, style: TextStyle(fontSize: 20),)),
             ),
           );
   }

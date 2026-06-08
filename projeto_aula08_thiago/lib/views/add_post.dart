@@ -9,7 +9,8 @@ class AddPost extends StatefulWidget {
 
 class _AddPostState extends State<AddPost> {
   final _formkey = GlobalKey<FormState>();
-  final TextEditingController _postController = TextEditingController();
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _textController = TextEditingController();
   
   @override
   Widget build(BuildContext context) {
@@ -30,20 +31,29 @@ class _AddPostState extends State<AddPost> {
           child: Column(
             children: [
               TextFormField(
-                controller: _postController,
+                controller: _titleController,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Entre com seu post';
+                    return 'Digite o title';
                   }
                   return null;
                 },
+              ),
+              TextFormField(
+                controller: _textController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Digite o text';
+                  }
+                  return null;
+                },  
               ),
               ElevatedButton(onPressed: () {
                 if (_formkey.currentState!.validate()) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text("Salvando"))
                   );
-                  Navigator.pop(context, [_postController.text]);
+                  Navigator.pop(context, [_textController.text, _titleController]);
                 }
               }, child: const Text('Salvar'),),
             ],
