@@ -64,20 +64,27 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class PostItem extends StatelessWidget {
+class PostItem extends StatefulWidget {
   final Post post;
   const PostItem({super.key, required this.post});
 
   @override
+  State<PostItem> createState() => _PostItemState();
+}
+
+class _PostItemState extends State<PostItem> {
+  @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
-    return Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Container(
-              height: 200,
-              color: colors.primaryContainer,
-              child: Center(child: Text(post.text, style: TextStyle(fontSize: 20),)),
-            ),
-          );
+    return Card(
+      child: ListTile(
+        title: Text(widget.post.title),
+        subtitle: Text(widget.post.text),
+        trailing: IconButton(icon: widget.post.liked ? Icon(Icons.favorite, color: Colors.red,) : Icon(Icons.favorite_border),onPressed: () {
+          setState(() {
+            widget.post.like();
+          });
+        },),
+      ),
+    );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_aula08_thiago/models/post.dart';
 
 class AddPost extends StatefulWidget {
   const AddPost({super.key});
@@ -12,8 +13,19 @@ class _AddPostState extends State<AddPost> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _textController = TextEditingController();
   
+  
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _textController.dispose();
+    _titleController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text("Novo Post"),
@@ -32,6 +44,9 @@ class _AddPostState extends State<AddPost> {
             children: [
               TextFormField(
                 controller: _titleController,
+                decoration: InputDecoration(
+                  hintText: 'Title'
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Digite o title';
@@ -41,6 +56,9 @@ class _AddPostState extends State<AddPost> {
               ),
               TextFormField(
                 controller: _textController,
+                decoration: const InputDecoration(
+                  hintText: 'Text',
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Digite o text';
@@ -48,12 +66,19 @@ class _AddPostState extends State<AddPost> {
                   return null;
                 },  
               ),
+
+              SizedBox(
+                height: size.height * 0.01,
+              ),
+
               ElevatedButton(onPressed: () {
                 if (_formkey.currentState!.validate()) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text("Salvando"))
                   );
-                  Navigator.pop(context, [_textController.text, _titleController]);
+
+                  final post = Post(title: _titleController.text, text: _textController.text);
+                  Navigator.pop(context, post);
                 }
               }, child: const Text('Salvar'),),
             ],
