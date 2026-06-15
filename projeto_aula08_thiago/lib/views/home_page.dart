@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_aula08_thiago/models/post.dart';
 import 'package:projeto_aula08_thiago/views/add_post.dart';
+import 'package:projeto_aula08_thiago/views/post_item.dart';
 import 'package:projeto_aula08_thiago/views/story_item.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,22 +22,57 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text('Instagram Style APP'),
       ),
       body: Column(
         children: [
-
-          SizedBox(
-            height: 150,
-            child: ListView.builder(
-              itemCount: _stories.length,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return StoryItem(text: _stories[index]);
-              },),
+          
+          Row(
+            children: [
+              TextButton(onPressed: () {},
+              child: Stack(
+                children: <Widget> [
+                  Container(
+                    height: size.height * 0.12,
+                    width: size.height * 0.12,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.inversePrimary,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: Container(
+                      height: size.height * 0.03,
+                      width: size.height * 0.03,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.blue,
+                        border: Border.all(color: Colors.white, width: 2)
+                    ),
+                    child: Icon(Icons.add, color: Colors.white,),
+                  )),
+                ],
+              )),
+              
+              Expanded(
+                child: SizedBox(
+                  height: 150,
+                  child: ListView.builder(
+                    itemCount: _stories.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return StoryItem(text: _stories[index]);
+                    },),
+                ),
+              ),
+            ],
           ),
+
 
           Expanded(
             child: ListView.builder(
@@ -60,31 +96,6 @@ class _HomePageState extends State<HomePage> {
         }
       },
       child: const Icon(Icons.add),),
-    );
-  }
-}
-
-class PostItem extends StatefulWidget {
-  final Post post;
-  const PostItem({super.key, required this.post});
-
-  @override
-  State<PostItem> createState() => _PostItemState();
-}
-
-class _PostItemState extends State<PostItem> {
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: ListTile(
-        title: Text(widget.post.title),
-        subtitle: Text(widget.post.text),
-        trailing: IconButton(icon: widget.post.liked ? Icon(Icons.favorite, color: Colors.red,) : Icon(Icons.favorite_border),onPressed: () {
-          setState(() {
-            widget.post.like();
-          });
-        },),
-      ),
     );
   }
 }

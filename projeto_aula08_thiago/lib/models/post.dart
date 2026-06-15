@@ -10,7 +10,7 @@ class  Post  {
   });
 
   void like () {
-    this.liked = !this.liked;
+    liked = !liked;
   }
 }
 

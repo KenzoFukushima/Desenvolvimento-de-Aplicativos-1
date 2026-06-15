@@ -7,11 +7,12 @@ class StoryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        height: 100,
-        width: 100,
+        height: size.height * 0.12,
+        width: size.height * 0.12,
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.inversePrimary,
           shape: BoxShape.circle,

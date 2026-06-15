@@ -17,7 +17,6 @@ class _AddPostState extends State<AddPost> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _textController.dispose();
     _titleController.dispose();
     super.dispose();
