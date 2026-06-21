@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_aula08_thiago/models/post.dart';
+import 'package:projeto_aula08_thiago/models/story.dart';
 import 'package:projeto_aula08_thiago/views/add_post.dart';
+import 'package:projeto_aula08_thiago/views/add_story.dart';
 import 'package:projeto_aula08_thiago/views/post_item.dart';
 import 'package:projeto_aula08_thiago/views/story_item.dart';
 
@@ -17,8 +19,11 @@ class _HomePageState extends State<HomePage> {
     Post(title: 'Título 2', text: 'post 2'),
     Post(title: 'Título 3', text: 'post 3'),
   ];
-
-  final List _stories = ['story 1', 'story 2', 'story 3', 'story 4', 'story 5'];
+  final List<Story> _stories = [
+    Story(title: 'Story 1'),
+    Story(title: 'Story 2'),
+    Story(title: 'Story 3'),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +37,16 @@ class _HomePageState extends State<HomePage> {
           
           Row(
             children: [
-              TextButton(onPressed: () {},
+              TextButton(onPressed: () async {
+                final resultStory = await Navigator.push(context, MaterialPageRoute(builder: (context) => const AddStory()));
+
+                if (resultStory != null && resultStory is String) {
+                  setState(() {
+                    _stories.add(Story(title: resultStory));
+                  });
+                }
+                
+              },
               child: Stack(
                 children: <Widget> [
                   Container(
@@ -66,7 +80,16 @@ class _HomePageState extends State<HomePage> {
                     itemCount: _stories.length,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
-                      return StoryItem(text: _stories[index]);
+                      return GestureDetector(
+                        onTap: () {
+                          if(!_stories[index].view) {
+                            setState(() {
+                              _stories[index].viewed();
+                            });
+                          }
+                        },
+                        child: StoryItem(story: _stories[index]),
+                      );
                     },),
                 ),
               ),
@@ -84,14 +107,14 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(onPressed: () async {
-        final result  = await Navigator.push(context, 
+        final resultPost  = await Navigator.push(context, 
           MaterialPageRoute(builder: (context) => const AddPost(),
           
           )
         );
-        if (result != null && result is Post) {
+        if (resultPost != null && resultPost is Post) {
           setState(() {
-            _post.add(result);
+            _post.add(resultPost);
           });
         }
       },

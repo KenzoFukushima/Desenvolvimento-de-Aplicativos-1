@@ -9,6 +9,6 @@ class Story {
   });
 
   void viewed () {
-    this.view = !this.view;
+    view = !view;
   }
 }
