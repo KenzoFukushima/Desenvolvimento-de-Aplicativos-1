@@ -34,67 +34,73 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Column(
         children: [
-          
-          Row(
-            children: [
-              TextButton(onPressed: () async {
-                final resultStory = await Navigator.push(context, MaterialPageRoute(builder: (context) => const AddStory()));
 
-                if (resultStory != null && resultStory is String) {
-                  setState(() {
-                    _stories.add(Story(title: resultStory));
-                  });
-                }
-                
-              },
-              child: Stack(
-                children: <Widget> [
-                  Container(
-                    height: size.height * 0.12,
-                    width: size.height * 0.12,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.inversePrimary,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: Container(
-                      height: size.height * 0.03,
-                      width: size.height * 0.03,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.blue,
-                        border: Border.all(color: Colors.white, width: 2)
-                    ),
-                    child: Icon(Icons.add, color: Colors.white,),
-                  )),
-                ],
-              )),
-              
-              Expanded(
-                child: SizedBox(
-                  height: 150,
-                  child: ListView.builder(
-                    itemCount: _stories.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          if(!_stories[index].view) {
-                            setState(() {
-                              _stories[index].viewed();
-                            });
-                          }
-                        },
-                        child: StoryItem(story: _stories[index]),
+          SizedBox(
+            height: 200,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: _stories.length + 1,
+              itemBuilder: (context, index) {
+                if (index == 0) {
+                  return TextButton(
+                    onPressed: () async {
+                      final resultStory = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const AddStory(),
+                        ),
                       );
-                    },),
-                ),
-              ),
-            ],
-          ),
+
+                      if (resultStory != null && resultStory is Story) {
+                        setState(() {
+                          _stories.add(
+                            resultStory,
+                          );
+                        });
+                      }
+                    },
+                    child: Stack(
+                      children: <Widget> [
+                        Container(
+                          height: size.height * 0.12,
+                          width: size.height * 0.12,
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.inversePrimary,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: Container(
+                            height: size.height * 0.03,
+                            width: size.height * 0.03,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.blue,
+                              border: Border.all(color: Colors.white, width: 2)
+                          ),
+                          child: Icon(Icons.add, color: Colors.white,),
+                        )),
+                      ],
+                    ),
+                  );
+                }
+
+                final story = _stories[index - 1];
+                return GestureDetector(
+                  onTap: () {
+                    if (!story.view) {
+                      setState(() {
+                        story.viewed();
+                      });
+                    }
+                  },
+                  child: StoryItem(story: story),
+                );
+              },
+            ),
+          ), 
 
 
           Expanded(

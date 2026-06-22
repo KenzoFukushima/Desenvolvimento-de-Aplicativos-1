@@ -18,7 +18,7 @@ class StoryItem extends StatelessWidget {
           color: Theme.of(context).colorScheme.inversePrimary,
           shape: BoxShape.circle,
           border: Border.all(
-            color: story.view ? Theme.of(context).colorScheme.outline : Theme.of(context).colorScheme.primary,
+            color: story.view ? Theme.of(context).colorScheme.outline : Theme.of(context).colorScheme.tertiaryFixedDim,
             width: 3
           ),
         ),
