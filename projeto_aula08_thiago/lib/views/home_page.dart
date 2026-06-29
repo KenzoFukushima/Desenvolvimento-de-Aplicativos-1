@@ -28,6 +28,13 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
+    deletedPost(int index) {
+      setState(() {
+        _post.removeAt(index);
+      });
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Instagram Style APP'),
@@ -107,7 +114,7 @@ class _HomePageState extends State<HomePage> {
             child: ListView.builder(
               itemCount: _post.length,
               itemBuilder: (context, index) {
-                return PostItem(post: _post[index]);
+                return PostItem(post: _post[index], deleteItem: () => deletedPost(index),);
             },),
           ),
         ],

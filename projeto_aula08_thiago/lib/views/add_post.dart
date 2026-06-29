@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:projeto_aula08_thiago/models/post.dart';
 
 class AddPost extends StatefulWidget {
-  const AddPost({super.key});
+  final Post? post;
+  const AddPost({super.key, this.post});
 
   @override
   State<AddPost> createState() => _AddPostState();
@@ -14,6 +15,14 @@ class _AddPostState extends State<AddPost> {
   final TextEditingController _textController = TextEditingController();
   
   
+  @override
+  void initState() {
+    super.initState();
+    if (widget.post != null) {
+      _titleController.text = widget.post!.title;
+      _textController.text = widget.post!.text;
+    }
+  }
 
   @override
   void dispose() {
@@ -27,7 +36,7 @@ class _AddPostState extends State<AddPost> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Novo Post"),
+        title: widget.post == null ? const Text("Novo Post") : const Text("Editando Post"),
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () {
@@ -75,9 +84,14 @@ class _AddPostState extends State<AddPost> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text("Salvando"))
                   );
-
-                  final post = Post(title: _titleController.text, text: _textController.text);
-                  Navigator.pop(context, post);
+                  if (widget.post == null) {
+                    Post newPost = Post(title: _titleController.text, text: _textController.text);
+                    Navigator.pop(context, [newPost]);
+                  } else {
+                    widget.post?.title = _titleController.text;
+                    widget.post?.text = _textController.text;
+                    Navigator.pop(context);
+                  }
                 }
               }, child: const Text('Salvar'),),
             ],
