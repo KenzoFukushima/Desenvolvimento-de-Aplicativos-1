@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_aula10_thiago/dao/postDAO.dart';
 import 'package:projeto_aula10_thiago/models/post.dart';
 import 'package:projeto_aula10_thiago/models/story.dart';
 import 'package:projeto_aula10_thiago/views/add_post.dart';
@@ -14,11 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<Post> _post = [
-    Post(title: 'Título 1', text: 'post 1'),
-    Post(title: 'Título 2', text: 'post 2'),
-    Post(title: 'Título 3', text: 'post 3'),
-  ];
+  
   final List<Story> _stories = [
     Story(title: 'Story 1'),
     Story(title: 'Story 2'),
@@ -29,9 +26,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    deletedPost(int index) {
+    deletedPost(Post post) {
       setState(() {
-        _post.removeAt(index);
+        PostDao.instance.remove(post);
       });
     }
 
@@ -111,27 +108,43 @@ class _HomePageState extends State<HomePage> {
 
 
           Expanded(
-            child: ListView.builder(
-              itemCount: _post.length,
-              itemBuilder: (context, index) {
-                return PostItem(post: _post[index], deleteItem: () => deletedPost(index),);
-            },),
+            child: FutureBuilder(
+              future: PostDao.instance.getPosts(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return snapshot.data!.isEmpty
+                      ? const Center(child: Text("Nenhum post"))
+                      : ListView.builder(
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (context, index) {
+                            Post currentPost = snapshot.data![index];
+                            return PostItem(
+                              post: currentPost,
+                              deleteItem: () => deletedPost(currentPost),
+                            );
+                          },
+                        );
+                } else if (snapshot.hasError) {
+                  return Center(child: Text(snapshot.error.toString()));
+                } else {
+                  return const CircularProgressIndicator();
+                }
+              },
+            ),
           ),
+
         ],
       ),
-      floatingActionButton: FloatingActionButton(onPressed: () async {
-        final resultPost  = await Navigator.push(context, 
-          MaterialPageRoute(builder: (context) => const AddPost(),
-          
-          )
-        );
-        if (resultPost != null && resultPost is Post) {
-          setState(() {
-            _post.add(resultPost);
-          });
-        }
-      },
-      child: const Icon(Icons.add),),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          await Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const AddPost()),
+          );
+          setState(() {});
+        },
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }

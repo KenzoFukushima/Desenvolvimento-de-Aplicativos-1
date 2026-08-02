@@ -1,4 +1,5 @@
   import 'package:flutter/material.dart';
+import 'package:projeto_aula10_thiago/dao/postDAO.dart';
   import 'package:projeto_aula10_thiago/models/post.dart';
 import 'package:projeto_aula10_thiago/views/add_post.dart';
 
@@ -21,20 +22,31 @@ import 'package:projeto_aula10_thiago/views/add_post.dart';
           subtitle: Text(widget.post.text),
           trailing: Wrap(
             children: [
-              IconButton(icon: widget.post.liked ? Icon(Icons.favorite, color: Colors.red,) : Icon(Icons.favorite_border),onPressed: () {
-                setState(() {
-                  widget.post.like();
-                });
-              },),
+              IconButton(
+                icon: widget.post.liked
+                    ? const Icon(Icons.favorite, color: Colors.red)
+                    : const Icon(Icons.favorite_border),
+                onPressed: () {
+                  setState(() {
+                    widget.post.like();
+                  });
+                  PostDao.instance.update(widget.post);
+                },
+              ),
       
               IconButton(onPressed: widget.deleteItem,
               icon: Icon(Icons.delete)),
 
-              IconButton(onPressed: () async {
-                await Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => AddPost(post: widget.post))
-                );
-              }, icon: Icon(Icons.edit)),
+              IconButton(
+                onPressed: () async {
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AddPost(post: widget.post)),
+                  );
+                  setState(() {});
+                },
+                icon: const Icon(Icons.edit),
+              ),
             ],
           ),
         ),
