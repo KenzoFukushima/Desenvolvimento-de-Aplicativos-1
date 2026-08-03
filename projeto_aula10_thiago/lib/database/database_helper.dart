@@ -18,6 +18,12 @@ class DatabaseHelper {
           title  TEXT NOT NULL,
           text TEXT NOT NULL,
           liked INTEGER NOT NULL)''');
+
+    await db.execute('''
+    CREATE TABLE stories
+      (id INTEGER PRIMARY KEY AUTOINCREMENT,
+      title TEXT NOT NULL,
+      view INTEGER NOT NULL)''');
   }
 
   Future<Database> get database async => _database ??= await _initDatabase();
