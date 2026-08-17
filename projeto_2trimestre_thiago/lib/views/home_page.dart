@@ -28,26 +28,6 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Future<void> _deletarTarefa(int id) async {
-    // Exibe a caixa de confirmação
-    bool? confirmar = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Excluir Tarefa'),
-        content: const Text('Deseja realmente apagar esta tarefa?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancelar'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text('Excluir', style: TextStyle(color: Colors.red)),
-          ),
-        ],
-      ),
-    );
-
   String filtro = 'todas';
   List<Tarefa> get tarefasFiltradas {
     if (filtro == 'Pendentes') {
