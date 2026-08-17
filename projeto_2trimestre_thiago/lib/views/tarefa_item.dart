@@ -11,6 +11,12 @@ class TarefaItem extends StatefulWidget {
 }
 
 class _TarefaItemState extends State<TarefaItem> {
+  void deleteTarefa(Tarefa tarefa) {
+    setState(() {
+      TarefaDao.instance.remove(tarefa);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -68,7 +74,19 @@ class _TarefaItemState extends State<TarefaItem> {
           ),
         ),
 
-        trailing: const Icon(Icons.more_vert),
+        trailing: PopupMenuButton<String>(
+          icon: const Icon(Icons.more_vert),
+          onSelected: (value) {
+            //
+          },
+          itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+            const PopupMenuItem<String>(value: 'editar', child: Text('Editar')),
+            const PopupMenuItem<String>(
+              value: 'remover',
+              child: Text('remover'),
+            ),
+          ],
+        ),
       ),
     );
   }

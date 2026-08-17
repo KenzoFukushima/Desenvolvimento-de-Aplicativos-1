@@ -30,7 +30,6 @@ class TarefaDao {
   // D - Delete
   Future<int> remove(Tarefa tarefa) async {
     Database db = await DatabaseHelper.instance.database;
-
     return await db.delete('tarefas', where: 'id = ?', whereArgs: [tarefa.id]);
   }
 
