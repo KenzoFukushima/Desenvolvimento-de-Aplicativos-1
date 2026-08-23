@@ -6,7 +6,13 @@ import 'package:projeto_2trimestre_thiago/views/add_tarefa.dart';
 class TarefaItem extends StatefulWidget {
   final Tarefa tarefa;
   final Function() deleteItem;
-  const TarefaItem({super.key, required this.tarefa, required this.deleteItem});
+  final Function() editItem;
+  const TarefaItem({
+    super.key,
+    required this.tarefa,
+    required this.deleteItem,
+    required this.editItem,
+  });
 
   @override
   State<TarefaItem> createState() => _TarefaItemState();
@@ -84,6 +90,7 @@ class _TarefaItemState extends State<TarefaItem> {
                   builder: (context) => AddTarefa(tarefa: widget.tarefa),
                 ),
               );
+              widget.editItem();
             }
           },
           itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[

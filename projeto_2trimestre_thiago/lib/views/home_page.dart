@@ -48,6 +48,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -75,7 +77,14 @@ class _HomePageState extends State<HomePage> {
                         filtro = 'Todas';
                       });
                     },
-                    child: const Text("Todas"),
+                    child: Text(
+                      'Todas',
+                      style: TextStyle(
+                        color: filtro == 'Todas'
+                            ? colors.primary
+                            : colors.onSurface,
+                      ),
+                    ),
                   ),
 
                   TextButton(
@@ -84,7 +93,14 @@ class _HomePageState extends State<HomePage> {
                         filtro = 'Pendentes';
                       });
                     },
-                    child: const Text("Pendentes"),
+                    child: Text(
+                      "Pendentes",
+                      style: TextStyle(
+                        color: filtro == 'Pendentes'
+                            ? colors.primary
+                            : colors.onSurface,
+                      ),
+                    ),
                   ),
 
                   TextButton(
@@ -93,7 +109,14 @@ class _HomePageState extends State<HomePage> {
                         filtro = 'Concluídas';
                       });
                     },
-                    child: const Text("Concluídas"),
+                    child: Text(
+                      "Concluídas",
+                      style: TextStyle(
+                        color: filtro == 'Concluídas'
+                            ? colors.primary
+                            : colors.onSurface,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -121,6 +144,7 @@ class _HomePageState extends State<HomePage> {
                   return TarefaItem(
                     tarefa: currentTarefa,
                     deleteItem: () => deleteTarefa(currentTarefa),
+                    editItem: () => carregarTarefas(),
                   );
                 },
               ),

@@ -84,7 +84,10 @@ class _AddTarefaState extends State<AddTarefa> {
       appBar: AppBar(
         centerTitle: true,
 
-        title: const Text("Nova tarefa", style: TextStyle(color: Colors.white)),
+        title: Text(
+          widget.tarefa == null ? 'Adicionar tarefa' : 'Editar tarefa',
+          style: const TextStyle(color: Colors.white),
+        ),
 
         backgroundColor: Theme.of(context).colorScheme.primary,
 
