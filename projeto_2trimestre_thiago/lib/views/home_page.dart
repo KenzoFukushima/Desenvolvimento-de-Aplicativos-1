@@ -41,6 +41,11 @@ class _HomePageState extends State<HomePage> {
     return tarefas;
   }
 
+  Future<void> deleteTarefa(Tarefa tarefa) async {
+    await TarefaDao.instance.remove(tarefa);
+    await carregarTarefas();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,7 +116,12 @@ class _HomePageState extends State<HomePage> {
                 itemCount: tarefasFiltradas.length,
 
                 itemBuilder: (context, index) {
-                  return TarefaItem(tarefa: tarefasFiltradas[index]);
+                  Tarefa currentTarefa = tarefasFiltradas[index];
+
+                  return TarefaItem(
+                    tarefa: currentTarefa,
+                    deleteItem: () => deleteTarefa(currentTarefa),
+                  );
                 },
               ),
             ),

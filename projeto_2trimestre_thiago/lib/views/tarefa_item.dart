@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_2trimestre_thiago/dao/tarefaDao.dart';
 import 'package:projeto_2trimestre_thiago/model/Tarefa.dart';
+import 'package:projeto_2trimestre_thiago/views/add_tarefa.dart';
 
 class TarefaItem extends StatefulWidget {
   final Tarefa tarefa;
-  const TarefaItem({super.key, required this.tarefa});
+  final Function() deleteItem;
+  const TarefaItem({super.key, required this.tarefa, required this.deleteItem});
 
   @override
   State<TarefaItem> createState() => _TarefaItemState();
 }
 
 class _TarefaItemState extends State<TarefaItem> {
-  void deleteTarefa(Tarefa tarefa) {
-    setState(() {
-      TarefaDao.instance.remove(tarefa);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -76,8 +72,19 @@ class _TarefaItemState extends State<TarefaItem> {
 
         trailing: PopupMenuButton<String>(
           icon: const Icon(Icons.more_vert),
-          onSelected: (value) {
-            //
+          onSelected: (value) async {
+            if (value == 'remover') {
+              widget.deleteItem();
+            }
+
+            if (value == 'editar') {
+              await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddTarefa(tarefa: widget.tarefa),
+                ),
+              );
+            }
           },
           itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
             const PopupMenuItem<String>(value: 'editar', child: Text('Editar')),

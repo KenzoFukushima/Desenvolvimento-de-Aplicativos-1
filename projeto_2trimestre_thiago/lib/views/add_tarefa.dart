@@ -3,7 +3,9 @@ import 'package:projeto_2trimestre_thiago/dao/tarefaDao.dart';
 import 'package:projeto_2trimestre_thiago/model/Tarefa.dart';
 
 class AddTarefa extends StatefulWidget {
-  const AddTarefa({super.key});
+  final Tarefa? tarefa;
+
+  const AddTarefa({super.key, this.tarefa});
 
   @override
   State<AddTarefa> createState() => _AddTarefaState();
@@ -26,17 +28,36 @@ class _AddTarefaState extends State<AddTarefa> {
     super.dispose();
   }
 
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.tarefa != null) {
+      tituloController.text = widget.tarefa!.titulo;
+      descricaoController.text = widget.tarefa!.descricao;
+      _prioridade = widget.tarefa!.prioridade;
+      _categoria = widget.tarefa!.categoria;
+      _prazo = widget.tarefa!.prazo;
+    }
+  }
+
   Future<void> salvar() async {
     if (_formKey.currentState!.validate()) {
       final tarefa = Tarefa(
+        id: widget.tarefa?.id,
         titulo: tituloController.text,
         descricao: descricaoController.text,
         prioridade: _prioridade,
         categoria: _categoria,
         prazo: _prazo!,
+        concluida: widget.tarefa?.concluida ?? false,
       );
 
-      await TarefaDao.instance.add(tarefa);
+      if (widget.tarefa == null) {
+        await TarefaDao.instance.add(tarefa);
+      } else {
+        await TarefaDao.instance.update(tarefa);
+      }
 
       Navigator.pop(context);
     }
@@ -170,7 +191,7 @@ class _AddTarefaState extends State<AddTarefa> {
                 items: const [
                   DropdownMenuItem(value: 'Escola', child: Text('Escola')),
                   DropdownMenuItem(value: 'Estudos', child: Text('Estudos')),
-                  DropdownMenuItem(value: 'Pessoal', child: Text('Pessoal')),
+                  DropdownMenuItem(value: 'Pessoal', child: Text('Trabalho')),
                 ],
 
                 onChanged: (value) {
