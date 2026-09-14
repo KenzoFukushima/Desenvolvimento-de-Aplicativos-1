@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_aula10_thiago/dao/storyDao.dart';
+import 'package:projeto_aula10_thiago/models/story.dart';
 
 class AddStory extends StatefulWidget {
-  const AddStory({super.key});
+  final Story? story;
+  const AddStory({super.key, this.story});
 
   @override
   State<AddStory> createState() => _AddStoryState();
@@ -49,15 +52,29 @@ class _AddStoryState extends State<AddStory> {
                 height: size.height * 0.01,
             ),
 
-            ElevatedButton(onPressed: () {
+            ElevatedButton(
+              onPressed: () async {
                 if (_formkey.currentState!.validate()) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("Salvando"))
-                  );
+                  if (widget.story == null) {
+                    Story newStory = Story(title: _titleController.text);
+                    await StoryDao.instance.add(newStory);
+                  } else {
+                    widget.story!.title = _titleController.text;
+                    await StoryDao.instance.update(widget.story!);
+                  }
 
-                  Navigator.pop(context, _titleController.text);
+                  if (!context.mounted) {
+                    return;
+                  }
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Salvando")),
+                  );
+                  Navigator.pop(context);
                 }
-              }, child: const Text('Salvar'),),
+              },
+              child: const Text('Salvar'),
+            ),
           ],
         ), 
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_aula10_thiago/dao/postDAO.dart';
 import 'package:projeto_aula10_thiago/models/post.dart';
 
 class AddPost extends StatefulWidget {
@@ -79,21 +80,37 @@ class _AddPostState extends State<AddPost> {
                 height: size.height * 0.01,
               ),
 
-              ElevatedButton(onPressed: () {
-                if (_formkey.currentState!.validate()) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("Salvando"))
-                  );
-                  if (widget.post == null) {
-                    Post newPost = Post(title: _titleController.text, text: _textController.text);
-                    Navigator.pop(context, [newPost]);
-                  } else {
-                    widget.post?.title = _titleController.text;
-                    widget.post?.text = _textController.text;
+              
+              ElevatedButton(
+                onPressed: () async {
+                  if (_formkey.currentState!.validate()) {
+                    Post newPost = Post(
+                      title: _titleController.text,
+                      text: _textController.text,
+                    );
+
+                    if (widget.post == null) {
+                      int id = await PostDao.instance.add(newPost);
+                      newPost.id = id;
+                    } else {
+                      widget.post!.title = _titleController.text;
+                      widget.post!.text = _textController.text;
+                      PostDao.instance.update(widget.post!);
+                    }
+
+                    if (!context.mounted) {
+                      return; // evita erros devido a chamada assíncrona
+                    }
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Salvando post")),
+                    );
                     Navigator.pop(context);
                   }
-                }
-              }, child: const Text('Salvar'),),
+                },
+                child: const Text('Salvar'),
+              ),
+
             ],
           ),
         ),
