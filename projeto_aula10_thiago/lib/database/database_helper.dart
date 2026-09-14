@@ -24,6 +24,14 @@ class DatabaseHelper {
       (id INTEGER PRIMARY KEY AUTOINCREMENT,
       title TEXT NOT NULL,
       view INTEGER NOT NULL)''');
+
+    await db.execute('''
+    CREATE TABLE commentes
+      (id INTEGER PRIMARY KEY AUTOINCREMENT,
+      texto TEXT NOT NULL,
+      post_id INTEGER,
+      FOREIGN KEY (post_id) REFERENCES posts (id) ON UPDATE CASCADE
+      )''');
   }
 
   Future<Database> get database async => _database ??= await _initDatabase();
